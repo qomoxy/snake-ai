@@ -4,13 +4,14 @@ from enum import Enum
 from collections import namedtuple
 import numpy as np
 
-pygame.init()
+pygame.init() # initialize all imported pygame modules
 font = pygame.font.Font('arial.ttf', 25)
 
 
 # font = pygame.font.SysFont('arial', 25)
 
 class Direction(Enum):
+    """The direction of the snake"""
     RIGHT = 1
     LEFT = 2
     UP = 3
@@ -31,8 +32,10 @@ SPEED = 20
 
 
 class SnakeGameAI:
+    """class SnakeGameAI"""
 
     def __init__(self, w=640, h=480):
+        """build the game"""
 
         self.frame_itarition = None
         self.food = None
@@ -53,6 +56,7 @@ class SnakeGameAI:
         self.reset()
 
     def reset(self):
+        """reset the game"""
 
         # init game state
         self.direction = Direction.RIGHT
@@ -66,9 +70,9 @@ class SnakeGameAI:
         self.food = None
         self._place_food()
         self.frame_itarition = 0
-        self.nb_game += 1
 
     def _place_food(self):
+        """place the food"""
         x = random.randint(0, (self.w - BLOCK_SIZE) // BLOCK_SIZE) * BLOCK_SIZE
         y = random.randint(0, (self.h - BLOCK_SIZE) // BLOCK_SIZE) * BLOCK_SIZE
         self.food = Point(x, y)
@@ -76,6 +80,7 @@ class SnakeGameAI:
             self._place_food()
 
     def play_step(self, action):
+        """play one step"""
         # 1. collect user input
         self.frame_itarition += 1
         for event in pygame.event.get():
@@ -110,6 +115,10 @@ class SnakeGameAI:
         return reward, game_over, self.score
 
     def is_collision(self, point=None):
+        """
+        check if the snake hits itself or the boundary
+        :param point: the point to check
+        """
         if point is None:
             pt = self.head
         # hits boundary
@@ -122,6 +131,7 @@ class SnakeGameAI:
         return False
 
     def _update_ui(self):
+        """update the ui"""
         self.display.fill(BLACK)
 
         for pt in self.snake:
@@ -135,6 +145,11 @@ class SnakeGameAI:
         pygame.display.flip()
 
     def _move(self, action):
+        """
+        move the snake
+        :param action: the action to take
+        :return:
+        """
 
         clock_wise = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
         idx = clock_wise.index(self.direction)
@@ -163,5 +178,3 @@ class SnakeGameAI:
             y -= BLOCK_SIZE
 
         self.head = Point(x, y)
-
-

@@ -12,6 +12,9 @@ LR = 0.001
 class Agent:
 
     def __init__(self):
+        """
+        build the agent
+        """
         self.nb_game = 0
         self.epsilon = 0  # randomness
         self.gamma = 0
@@ -20,6 +23,10 @@ class Agent:
         self.model = None 
 
     def get_state(self, game):
+        """
+        get the state of the game
+        :param game: instance of the game
+        """
         head = game.snake[0]
         point_l = Point(head.x - 20, head.y)
         point_r = Point(head.x + 20, head.y)
@@ -60,9 +67,22 @@ class Agent:
         ]
 
     def remember(self, state, game, reward, next_state, done):
+        """
+        remember the state of the game
+        :param state: state of the game
+        :param game: instance of the game
+        :param reward: the reward of the game (score)
+        :param next_state: the next state of the game
+        :param done: if the game is done
+        :return: None
+        """
         self.memory.append((state, game, reward, next_state, done))
 
     def train_long_memory(self):
+        """
+        train the long memory
+        :return: None
+        """
         if len(self.memory) > BATCH_SIZE:
             mini_sample = rn.sample(self.memory, BATCH_SIZE)
         else:
@@ -72,9 +92,23 @@ class Agent:
         self.trainer.train_step(states, games, rewards, next_states, dones)
 
     def train_short_memory(self, state, action, reward, next_state, done):
+        """
+        train the short memory
+        :param state: state of the game
+        :param action: action of the model (left, right, straight)
+        :param reward: the reward of the game (score)
+        :param next_state: the next state of the game
+        :param done: if the game is done
+        :return: None
+        """
         self.trainer.train_step(state, action, reward, next_state, done)
 
     def get_action(self, state):
+        """
+        get the action of the model
+        :param state: state of the game
+        :return: the action of the model
+        """
         self.epsilon = 80 - self.nb_game
         final_move = [0, 0, 0]
         if rn.randint(0, 200) < self.epsilon:
@@ -90,6 +124,10 @@ class Agent:
 
 
 def train():
+    """
+    train the model
+    :return: None
+    """
     plot_scores = []
     plot_mean_scores = []
     total_score = 0
@@ -133,4 +171,5 @@ def train():
 
 
 if __name__ == '__main__':
+    '''Do the training'''
     train()
