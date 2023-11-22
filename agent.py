@@ -1,0 +1,38 @@
+import random as rn
+import numpy as np
+import torch
+from collections import deque
+from game import SnakeGameAI, Direction, Point
+
+MAX_MEMORY = 100_000
+BATCH_SIZE = 1000
+LR = 0.001
+
+class Agent:
+
+    def __init__(self):
+        self.nb_game = 0
+        self.epsilon = 0 # randomness
+        self.gamma = 0
+        self.memory = deque(maxlen=MAX_MEMORY)
+
+    def get_state(self, game):
+        pass
+
+    def remenber(self, state, game, reward, next_state, done):
+        pass
+
+    def train_long_memory(self):
+        pass
+
+    def train_short_memory(self):
+        pass
+
+    def get_action(self, state):
+        pass
+
+def train():
+    pass
+
+if __name__ == '__main__':
+    train()
