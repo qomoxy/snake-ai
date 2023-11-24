@@ -15,4 +15,6 @@ def plot(scores, means_scores):
     plt.ylim(ymin=0)
     plt.text(len(scores)-1, scores[-1], str(scores[-1]))
     plt.text(len(means_scores)-1, means_scores[-1], str(means_scores[-1]))
+    plt.show(block=False)
+    plt.pause(.1)
 
