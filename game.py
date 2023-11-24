@@ -28,7 +28,7 @@ BLUE2 = (0, 100, 255)
 BLACK = (0, 0, 0)
 
 BLOCK_SIZE = 20
-SPEED = 20
+SPEED = 40
 
 
 class SnakeGameAI:
@@ -36,13 +36,6 @@ class SnakeGameAI:
 
     def __init__(self, w=640, h=480):
         """build the game"""
-
-        self.frame_itarition = None
-        self.food = None
-        self.score = None
-        self.snake = None
-        self.head = None
-        self.direction = None
 
         self.w = w
         self.h = h
