@@ -11,7 +11,20 @@ BATCH_SIZE = 1000
 LR = 0.001
 
 
-def get_state(game):
+class Agent:
+
+    def __init__(self):
+        """
+        build the agent
+        """
+        self.nb_game = 0
+        self.epsilon = 0  # randomness
+        self.gamma = 0.9
+        self.memory = deque(maxlen=MAX_MEMORY)
+        self.model = Linear_QNet(11, 256, 3)
+        self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
+
+    def get_state(game):
     """
     get the state of the game
     :param game: instance of the game
@@ -55,21 +68,7 @@ def get_state(game):
         game.food.y > game.head.y  # food down
     ]
 
-
-class Agent:
-
-    def __init__(self):
-        """
-        build the agent
-        """
-        self.nb_game = 0
-        self.epsilon = 0  # randomness
-        self.gamma = 0.9
-        self.memory = deque(maxlen=MAX_MEMORY)
-        self.model = Linear_QNet(11, 256, 3)
-        self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
-
-    def remember(self, state, game, reward, next_state, done):
+    def remember(self, state, action, reward, next_state, done):
         """
         remember the state of the game
         :param state: state of the game
@@ -79,7 +78,7 @@ class Agent:
         :param done: if the game is done
         :return: None
         """
-        self.memory.append((state, game, reward, next_state, done))
+        self.memory.append((state, action, reward, next_state, done))
 
     def train_long_memory(self):
         """
@@ -137,8 +136,9 @@ def train():
     record = 0
     agent = Agent()
     game = SnakeGameAI()
+    
     while True:
-        # get old state
+        
         state_old = get_state(game)
 
         # get move
@@ -146,7 +146,7 @@ def train():
 
         # perform move and get new state
         reward, done, score = game.play_step(final_move)
-        state_new = get_state(game)
+        state_new = agent.get_state(game)
 
         # train short memory
         agent.train_short_memory(state_old, final_move, reward, state_new, done)
