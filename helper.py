@@ -3,7 +3,12 @@ from IPython import display
 
 plt.ion()
 
-def plot(scores, means_scores):
+def plot(scores, means_scores) -> None:
+    """"
+    plot the scores, make statements about the evolution of the model
+    :param scores: list of scores
+    :param means_scores: list of means scores
+    """
     display.clear_output(wait=True)
     display.display(plt.gcf())
     plt.clf()
@@ -17,4 +22,3 @@ def plot(scores, means_scores):
     plt.text(len(means_scores)-1, means_scores[-1], str(means_scores[-1]))
     plt.show(block=False)
     plt.pause(.1)
-
