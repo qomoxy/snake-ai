@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from IPython import display
 
-plt.ion()
+plt.ion() # interactive mode
 
 def plot(scores, means_scores) -> None:
     """"
